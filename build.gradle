@@ -54,7 +54,7 @@ task clearCodeForScst(type: Delete) {
     delete fileTree('src/main/groovy/org/springframework') {
         include '**/*'
         exclude '**/org/springframework/jenkins/common/**/*'
-        exclude '**/org/springframework/jenkins/scstappstarters/**/*'
+        exclude '**/org/springframework/jenkins/javafunctions/**/*'
     }
 }
 
@@ -63,7 +63,7 @@ task clearJobsForScst(type: Delete) {
     description = "Removes jobs that are not related to Spring Cloud Stream Tasks"
     delete fileTree('jobs') {
         include '**/*'
-        exclude 'scstappstarters/**/*'
+        exclude 'javafunctions/**/*'
     }
 }
 
