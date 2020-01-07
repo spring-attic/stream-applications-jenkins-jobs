@@ -14,7 +14,7 @@ dsl.listView('Seeds') {
 	columns defaultColumns()
 }
 
-dsl.nestedView('SpringScstAppStarters') {
+dsl.nestedView('JavaFunctionsView') {
 	views {
 		listView('Master-CI') {
 			jobs {
