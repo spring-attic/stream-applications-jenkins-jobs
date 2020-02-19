@@ -27,12 +27,12 @@ class JavaFunctionsBuildMaker implements JdkConfig, TestPublisher,
         this.repo = repo
     }
 
-    void deploy(boolean checkTests = true, boolean isGaRelease = false) {
+    void deploy(boolean checkTests = true, boolean isRelease = false, String releaseType = "") {
         String projectBranch = branchToBuild
 
         dsl.job("${prefixJob(repo)}-${projectBranch}-ci") {
             triggers {
-                if (!isGaRelease) {
+                if (!isRelease) {
                     githubPush()
                 }
             }
@@ -56,7 +56,7 @@ class JavaFunctionsBuildMaker implements JdkConfig, TestPublisher,
                 }
             }
             steps {
-                shell(cleanAndDeploy(isGaRelease))
+                shell(cleanAndDeploy(isRelease, releaseType))
             }
             if (checkTests) {
                 publishers {

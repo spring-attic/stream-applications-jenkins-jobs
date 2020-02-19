@@ -12,23 +12,32 @@ trait JavaFunctionsCommons extends BuildAndDeploy {
         return 'java-functions'
     }
 
-    String cleanAndDeploy(boolean isGaRelease) {
-        return isGaRelease ?
-                """
-                        lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | wc -l)
+    String cleanAndDeploy(boolean isRelease, String releaseType) {
+        if (isRelease && releaseType != null && !releaseType.equals("milestone")) {
+
+            return  """
+                        lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v regex | wc -l)
                         if [ \$lines -eq 0 ]; then
                             set +x
-                            ./mvnw clean deploy -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\\\$${
-                    gpgPubRing()
-                }" -Dgpg.passphrase="\\\$${gpgPassphrase()}" -DSONATYPE_USER="\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\$${sonatypePassword()}" -Pcentral -U
+                            ./mvnw clean deploy -Pspring -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
+                gpgPubRing()}" -Dgpg.passphrase="\$${gpgPassphrase()}" -DSONATYPE_USER="\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\$${sonatypePassword()}" -Pcentral -U
                             set -x
                         else
                             echo "Non release versions found. Aborting build"
                         fi
-                    """ :
-                """
-                        ./mvnw clean deploy -U
                     """
+        }
+        if (isRelease && releaseType != null && releaseType.equals("milestone")) {
+            return """
+					#!/bin/bash -x
+			   		lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | wc -l)
+					if [ \$lines -eq 0 ]; then
+						./mvnw clean deploy -U -Pspring
+					else
+						echo "Snapshots found. Aborting the release build."
+					fi
+			   """
+        }
     }
 
     String gpgSecRing() {
