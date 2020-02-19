@@ -38,6 +38,12 @@ trait JavaFunctionsCommons extends BuildAndDeploy {
 					fi
 			   """
         }
+        else {
+            return  """
+                        ./mvnw clean deploy -U
+                    """
+        }
+
     }
 
     String gpgSecRing() {
