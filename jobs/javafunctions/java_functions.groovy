@@ -5,4 +5,4 @@ import javaposse.jobdsl.dsl.DslFactory
 
 DslFactory dsl = this
 
-new JavaFunctionsBuildMaker(dsl, "pivotal", "java-functions").deploy(true, true, "milestone")
+new JavaFunctionsBuildMaker(dsl, "pivotal", "java-functions").deploy()
