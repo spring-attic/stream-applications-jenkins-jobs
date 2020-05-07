@@ -116,6 +116,7 @@ class StreamApplicationsBuildMaker implements JdkConfig, TestPublisher,
                             popd
                             ./mvnw clean deploy -U -f applications/${cdToApps}
                         else
+                            popd
                             ./mvnw clean package -U -f applications/${cdToApps}
                         fi
                         ${cleanGitCredentials()}

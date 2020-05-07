@@ -138,6 +138,7 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 							popd
 							./mvnw clean deploy -U -f applications/${cdToApps}
 						else
+							popd
 							./mvnw clean package -U -f applications/${cdToApps}
 						fi
                         set -x
@@ -161,6 +162,7 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 						popd
 						./mvnw clean deploy -U -f applications/${cdToApps}
 					else
+						popd
 						./mvnw clean package -U -f applications/${cdToApps}
 					fi
                     set -x
