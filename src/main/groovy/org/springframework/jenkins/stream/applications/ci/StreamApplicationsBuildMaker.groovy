@@ -108,15 +108,15 @@ class StreamApplicationsBuildMaker implements JdkConfig, TestPublisher,
                         export MAVEN_PATH=${mavenBin()}
                         ${setupGitCredentials()}
                         echo "Building app generator"
-                        command pushd applications/${cdToApps}
+                        cd applications/${cdToApps}
                         rm -rf apps
                         if [ -d "src/main/java" ]
                         then
                             echo "Source folder found."
-                            command popd
+                            cd -
                             ./mvnw clean deploy -U -f applications/${cdToApps}
                         else
-                            command popd
+                            cd -
                             ./mvnw clean package -U -f applications/${cdToApps}
                         fi
                         ${cleanGitCredentials()}
