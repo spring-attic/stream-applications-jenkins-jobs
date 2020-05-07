@@ -1,4 +1,4 @@
-package javafunctions
+package streamapplications
 
 import org.springframework.jenkins.common.view.DashboardViewBuilder
 import javaposse.jobdsl.dsl.DslFactory
@@ -14,11 +14,11 @@ dsl.listView('Seeds') {
 	columns defaultColumns()
 }
 
-dsl.nestedView('JavaFunctionsView') {
+dsl.nestedView('StreamApplicationsJobs') {
 	views {
 		listView('Master-CI') {
 			jobs {
-				regex('java-functions.*master-ci')
+				regex('stream-applications.*master-ci')
 			}
 			columns defaultColumns()
 		}

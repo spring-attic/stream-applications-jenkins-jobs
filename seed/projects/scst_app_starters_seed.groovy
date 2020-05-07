@@ -1,12 +1,12 @@
 
-job('java-functions-seed') {
+job('scst-app-starters-seed') {
     triggers {
         githubPush()
     }
     scm {
         git {
             remote {
-                github('spring-cloud-stream-app-starters/java-functions-jenkins')
+                github('spring-io/build-scripts')
             }
             branch('master')
         }
@@ -14,7 +14,7 @@ job('java-functions-seed') {
     steps {
         gradle("clean build")
         dsl {
-            external('jobs/javafunctions/*.groovy')
+            external('jobs/scstappstarters/*.groovy')
             removeAction('DISABLE')
             removeViewAction('DELETE')
             ignoreExisting(false)

@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.4.3'
+    compile 'org.codehaus.groovy:groovy-all:2.4.16'
     testCompile('org.spockframework:spock-core:1.0-groovy-2.4') {
         exclude module: 'groovy-all'
     }
@@ -54,7 +54,7 @@ task clearCodeForScst(type: Delete) {
     delete fileTree('src/main/groovy/org/springframework') {
         include '**/*'
         exclude '**/org/springframework/jenkins/common/**/*'
-        exclude '**/org/springframework/jenkins/javafunctions/**/*'
+        exclude '**/org/springframework/jenkins/scstappstarters/**/*'
     }
 }
 
@@ -63,7 +63,7 @@ task clearJobsForScst(type: Delete) {
     description = "Removes jobs that are not related to Spring Cloud Stream Tasks"
     delete fileTree('jobs') {
         include '**/*'
-        exclude 'javafunctions/**/*'
+        exclude 'scstappstarters/**/*'
     }
 }
 
@@ -72,7 +72,7 @@ task clearSeedsForScst(type: Delete) {
     description = "Removes seeds that are not related to Spring Cloud Stream Tasks"
     delete fileTree('seed') {
         include '**/*'
-        exclude '**/java_functions_seed.groovy'
+        exclude '**/scst_app_starters_seed.groovy'
         exclude '**/init/*.groovy'
     }
 }
@@ -93,7 +93,7 @@ task changeUrlForSeedForScst(dependsOn: [clearSeedsForScst]) {
     doLast {
         if (project.hasProperty(repoUrlProp)) {
             replaceUrl('seed/init/meta_seed.groovy')
-            replaceUrl('seed/projects/java_functions_seed.groovy')
+            replaceUrl('seed/projects/scst_app_starters_seed.groovy')
         }
     }
 }
