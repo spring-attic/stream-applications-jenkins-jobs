@@ -150,7 +150,7 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 		if (isRelease && releaseType != null && releaseType.equals("milestone")) {
 			return """
                 #!/bin/bash -x
-                pushd applications/${cdToApps}
+                command pushd applications/${cdToApps}
                 rm -rf apps
 
                 lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | wc -l)
@@ -159,10 +159,10 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 					 if [ -d "src/main/java" ]
 					 then
 						echo "Source folder found."
-						popd
+						command popd
 						./mvnw clean deploy -U -f applications/${cdToApps}
 					else
-						popd
+						command popd
 						./mvnw clean package -U -f applications/${cdToApps}
 					fi
                     set -x
