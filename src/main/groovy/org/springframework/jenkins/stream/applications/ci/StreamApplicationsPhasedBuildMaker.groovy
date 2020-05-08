@@ -24,9 +24,6 @@ class StreamApplicationsPhasedBuildMaker implements StreamApplicaitonsUtilsTrait
                 }
                 if (!isRelease) {
                     phase('java-functions-phase', 'COMPLETED') {
-                        triggers {
-                            githubPush()
-                        }
                         scm {
                             git {
                                 remote {
@@ -42,9 +39,6 @@ class StreamApplicationsPhasedBuildMaker implements StreamApplicaitonsUtilsTrait
                     }
                 }
                 phase('stream-applications-core-phase', 'COMPLETED') {
-                    triggers {
-                        githubPush()
-                    }
                     scm {
                         git {
                             remote {
