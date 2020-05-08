@@ -55,9 +55,6 @@ class StreamApplicationsBuildMaker implements JdkConfig, TestPublisher,
                     }
                 }
             }
-            triggers {
-                cron "0 0 7,14,18 ? * * *"
-            }
             jdk jdk8()
             wrappers {
                 colorizeOutput()
