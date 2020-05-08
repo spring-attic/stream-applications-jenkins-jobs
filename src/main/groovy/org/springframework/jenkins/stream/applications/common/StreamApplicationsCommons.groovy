@@ -22,7 +22,7 @@ class StreamApplicationsCommons {
                                                     'mongodb-sink', 'mongodb-source', 'filter-processor']
 
     public static final List<String> PHASE2_KEYS = ['transform-processor', 'jdbc-sink', 'counter-sink', 'bridge-processor', 'file-source', 'file-sink',
-                                                    'redis-sink', 'header-enricher']
+                                                    'redis-sink', 'header-enricher-processor']
 
     public static final List<List<String>> ALL_JOBS = [PHASE1_KEYS, PHASE2_KEYS]
 
