@@ -20,7 +20,7 @@ class StreamApplicationsPhasedBuildMaker implements StreamApplicaitonsUtilsTrait
         dsl.multiJob("stream-application-builds" + "-" + branchToBuild) {
             steps {
                 triggers {
-                    cron "0 5 * * *"
+                    cron "H */12 * * *"
                 }
                 if (!isRelease) {
                     phase('java-functions-phase', 'COMPLETED') {
