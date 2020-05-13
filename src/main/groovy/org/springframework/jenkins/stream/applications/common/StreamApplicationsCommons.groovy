@@ -17,7 +17,7 @@ class StreamApplicationsCommons {
                                                            'counter-sink':'sink/counter-sink', 'bridge-processor':'processor/bridge-processor',
                                                            'file-sink':'sink/file-sink', 'file-source':'source/file-source',
                                                            'redis-sink':'sink/redis-sink', 'header-enricher-processor':'processor/header-enricher-processor',
-                                                           'groovy-transform-processor':'processor/groovy-processor', 'router-sink':'sink/router-sink',
+                                                           'groovy-processor':'processor/groovy-processor', 'router-sink':'sink/router-sink',
                                                            'ftp-sink':'sink/ftp-sink', 'sftp-sink':'sink/sftp-sink']
 
     public static final List<String> PHASE1_KEYS = ['jdbc-source', 'http-source', 'splitter-processor', 'rabbit-sink', 'time-source', 'log-sink', 'cassandra-sink',
