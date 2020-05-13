@@ -17,7 +17,8 @@ class StreamApplicationsCommons {
                                                            'counter-sink':'sink/counter-sink', 'bridge-processor':'processor/bridge-processor',
                                                            'file-sink':'sink/file-sink', 'file-source':'source/file-source',
                                                            'redis-sink':'sink/redis-sink', 'header-enricher-processor':'processor/header-enricher-processor',
-                                                           'groovy-transform-processor':'processor/groovy-processor', 'router-sink':'sink/router-sink']
+                                                           'groovy-transform-processor':'processor/groovy-processor', 'router-sink':'sink/router-sink',
+                                                           'ftp-sink':'sink/ftp-sink', 'sftp-sink':'sink/sftp-sink']
 
     public static final List<String> PHASE1_KEYS = ['jdbc-source', 'http-source', 'splitter-processor', 'rabbit-sink', 'time-source', 'log-sink', 'cassandra-sink',
                                                     'mongodb-sink', 'mongodb-source', 'filter-processor']
@@ -25,6 +26,8 @@ class StreamApplicationsCommons {
     public static final List<String> PHASE2_KEYS = ['transform-processor', 'jdbc-sink', 'counter-sink', 'bridge-processor', 'file-source', 'file-sink',
                                                     'redis-sink', 'header-enricher-processor', 'groovy-processor', 'router-sink']
 
-    public static final List<List<String>> ALL_JOBS = [PHASE1_KEYS, PHASE2_KEYS]
+    public static final List<String> PHASE3_KEYS = ['ftp-sink', 'sftp-sink']
+
+    public static final List<List<String>> ALL_JOBS = [PHASE1_KEYS, PHASE2_KEYS, PHASE3_KEYS]
 
 }
