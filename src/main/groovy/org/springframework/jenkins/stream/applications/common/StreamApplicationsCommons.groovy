@@ -20,8 +20,12 @@ class StreamApplicationsCommons {
             'mongodb-source'           : 'source/mongodb-source',
             'mqtt-source'              : 'source/mqtt-source',
             'rabbit-source'            : 'source/rabbit-source',
+            's3-source'                : 'source/s3-source',
             'tcp-source'               : 'source/tcp-source',
             'time-source'              : 'source/time-source',
+            'twitter-message-source'   : 'source/twitter-message-source',
+            'twitter-search-source'   : 'source/twitter-search-source',
+            'twitter-stream-source'   : 'source/twitter-stream-source',
             'websocket-source'         : 'source/websocket-source',
             //sinks
             'cassandra-sink'           : 'sink/cassandra-sink',
@@ -36,10 +40,13 @@ class StreamApplicationsCommons {
             'rabbit-sink'              : 'sink/rabbit-sink',
             'redis-sink'               : 'sink/redis-sink',
             'router-sink'              : 'sink/router-sink',
+            's3-sink'                  : 'sink/s3-sink',
             'sftp-sink'                : 'sink/sftp-sink',
             'tcp-sink'                 : 'sink/tcp-sink',
             'tasklauncher-sink'        : 'sink/tasklauncher-sink',
             'throughput-sink'          : 'sink/throughput-sink',
+            'twitter-message-sink'     : 'sink/twitter-message-sink',
+            'twitter-update-sink'      : 'sink/twitter-update-sink',
             'websocket-sink'           : 'sink/websocket-sink',
             //processors
             'bridge-processor'         : 'processor/bridge-processor',
@@ -50,20 +57,26 @@ class StreamApplicationsCommons {
             'script-processor'         : 'processor/script-processor',
             'splitter-processor'       : 'processor/splitter-processor',
             'transform-processor'      : 'processor/transform-processor',
+            'twitter-trend-processor'  : 'processor/twitter-trend-processor',
     ]
 
-    public static final List<String> PHASE1_KEYS = ['file-source', 'ftp-source', 'geode-source', 'http-source', 'jdbc-source', 'jms-source','load-generator-source',
+    public static final List<String> PHASE1_KEYS = ['file-source', 'ftp-source', 'geode-source', 'http-source',
+                                                    'jdbc-source', 'jms-source','load-generator-source',
                                                     'mongodb-source', 'mqtt-source', 'rabbit-source']
 
-    public static final List<String> PHASE2_KEYS = ['time-source', 'tcp-source', 'websocket-source', 'cassandra-sink', 'counter-sink', 'file-sink', 'ftp-sink', 'geode-sink',
-                                                    'jdbc-sink', 'log-sink']
+    public static final List<String> PHASE2_KEYS = ['s3-source', 'tcp-source', 'time-source', 'twitter-message-source',
+                                                    'twitter-search-source', 'twitter-stream-source', 'websocket-source',
+                                                    'cassandra-sink', 'counter-sink', 'file-sink']
 
-    public static final List<String> PHASE3_KEYS = ['mongodb-sink', 'mqtt-sink', 'rabbit-sink', 'redis-sink', 'router-sink', 'sftp-sink', 'tcp-sink',
-                                                    'tasklauncher-sink', 'throughput-sink', 'websocket-sink']
+    public static final List<String> PHASE3_KEYS = ['ftp-sink', 'geode-sink', 'jdbc-sink', 'log-sink',
+                                                    'mongodb-sink', 'mqtt-sink', 'rabbit-sink', 'redis-sink', 'router-sink', 's3-sink']
 
-    public static final List<String> PHASE4_KEYS = ['bridge-processor', 'filter-processor', 'groovy-processor',
-                                                    'header-enricher-processor', 'http-request-processor', 'script-processor', 'splitter-processor', 'transform-processor']
+    public static final List<String> PHASE4_KEYS = ['sftp-sink', 'tcp-sink', 'tasklauncher-sink', 'throughput-sink', 'websocket-sink',
+                                                    'twitter-message-sink', 'twitter-update-sink','bridge-processor', 'filter-processor', 'groovy-processor']
 
-    public static final List<List<String>> ALL_JOBS = [PHASE1_KEYS, PHASE2_KEYS, PHASE3_KEYS, PHASE4_KEYS]
+    public static final List<String> PHASE5_KEYS = ['header-enricher-processor', 'http-request-processor', 'script-processor',
+                                                    'splitter-processor', 'transform-processor', 'twitter-trend-processor']
+
+    public static final List<List<String>> ALL_JOBS = [PHASE1_KEYS, PHASE2_KEYS, PHASE3_KEYS, PHASE4_KEYS, PHASE5_KEYS]
 
 }
