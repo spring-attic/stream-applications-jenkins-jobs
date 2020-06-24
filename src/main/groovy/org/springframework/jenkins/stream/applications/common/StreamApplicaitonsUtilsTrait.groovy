@@ -64,7 +64,6 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 		if (isRelease && releaseType != null && !releaseType.equals("milestone")) {
 			return """
                     #!/bin/bash -x
-                    rm -rf apps
 
                     lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v ".contains(" | grep -v regex | wc -l)
                     if [ \$lines -eq 0 ]; then
@@ -95,7 +94,6 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 		if (isRelease && releaseType != null && !releaseType.equals("milestone")) {
 			return """
                     #!/bin/bash -x
-                    rm -rf apps
 
                     lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v ".contains(" | grep -v regex | wc -l)
                     if [ \$lines -eq 0 ]; then

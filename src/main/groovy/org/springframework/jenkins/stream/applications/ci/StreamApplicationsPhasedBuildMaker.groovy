@@ -19,10 +19,10 @@ class StreamApplicationsPhasedBuildMaker implements StreamApplicaitonsUtilsTrait
         buildAllRelatedJobs(isRelease, releaseType, branchToBuild)
         dsl.multiJob("stream-application-builds" + "-" + branchToBuild) {
             steps {
-                triggers {
-                    cron "H */12 * * *"
-                }
                 if (!isRelease) {
+                    triggers {
+                        cron "H */12 * * *"
+                    }
                     phase('java-functions-phase', 'COMPLETED') {
                         scm {
                             git {
@@ -37,19 +37,19 @@ class StreamApplicationsPhasedBuildMaker implements StreamApplicaitonsUtilsTrait
                             currentJobParameters()
                         }
                     }
-                }
-                phase('stream-applications-core-phase', 'COMPLETED') {
-                    scm {
-                        git {
-                            remote {
-                                url "https://github.com/spring-cloud/stream-applications"
-                                branch branchToBuild
+                    phase('stream-applications-core-phase', 'COMPLETED') {
+                        scm {
+                            git {
+                                remote {
+                                    url "https://github.com/spring-cloud/stream-applications"
+                                    branch branchToBuild
+                                }
                             }
                         }
-                    }
-                    String prefixedProjectName = prefixJob("stream-applications-core")
-                    phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
-                        currentJobParameters()
+                        String prefixedProjectName = prefixJob("stream-applications-core")
+                        phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
+                            currentJobParameters()
+                        }
                     }
                 }
 
@@ -81,30 +81,15 @@ class StreamApplicationsPhasedBuildMaker implements StreamApplicaitonsUtilsTrait
     }
 
     void buildAllRelatedJobs(boolean isRelease, String releaseType, String branchToBuild) {
-        if (isRelease) {
-            new StreamApplicationsBuildMaker(dsl, "spring-cloud", "stream-applications", "java-functions", branchToBuild)
-                    .deploy(true, false, false, false, false, false, isRelease, releaseType)
-            new StreamApplicationsBuildMaker(dsl, "spring-cloud", "stream-applications", "stream-applications-core", branchToBuild)
-                    .deploy(false, true, false, false, false, false, isRelease, releaseType)
-            StreamApplicationsCommons.PHASED_JOBS.each { k, v ->
-                new StreamApplicationsBuildMaker(dsl, "spring-cloud", "stream-applications", "${k}", branchToBuild).deploy(false, false,
-                        true, false, true, false, isRelease, releaseType, "${v}")
-            }
-            new StreamApplicationsBuildMaker(dsl, "spring-cloud", "stream-applications", "stream-applications-build", branchToBuild)
-                    .deploy(false, false, false, true, false, false, isRelease, releaseType)
+        new StreamApplicationsBuildMaker(dsl, "spring-cloud", "stream-applications", "java-functions", branchToBuild)
+                .deploy(true, false, false, false, false, isRelease, releaseType)
+        new StreamApplicationsBuildMaker(dsl, "spring-cloud", "stream-applications", "stream-applications-core", branchToBuild)
+                .deploy(false, true, false, false, false, isRelease, releaseType)
+        StreamApplicationsCommons.PHASED_JOBS.each { k, v ->
+            new StreamApplicationsBuildMaker(dsl, "spring-cloud", "stream-applications", "${k}", branchToBuild).deploy(false, false,
+                    true, false, true, isRelease, releaseType, "${v}")
         }
-        else {
-            new StreamApplicationsBuildMaker(dsl, "spring-cloud", "stream-applications", "java-functions", branchToBuild)
-                    .deploy(true, false, false, false, false, false, isRelease, releaseType)
-            new StreamApplicationsBuildMaker(dsl, "spring-cloud", "stream-applications", "stream-applications-core", branchToBuild)
-                    .deploy(false, true, false, false, false, false, isRelease, releaseType)
-
-            StreamApplicationsCommons.PHASED_JOBS.each { k, v ->
-                new StreamApplicationsBuildMaker(dsl, "spring-cloud", "stream-applications", "${k}", branchToBuild).deploy(false, false,
-                        true, false, true, false, isRelease, releaseType, "${v}")
-            }
-            new StreamApplicationsBuildMaker(dsl, "spring-cloud", "stream-applications", "stream-applications-build", branchToBuild)
-                    .deploy(false, false, false, true, false, false, isRelease, releaseType)
-        }
+        new StreamApplicationsBuildMaker(dsl, "spring-cloud", "stream-applications", "stream-applications-build", branchToBuild)
+                .deploy(false, false, false, true, false, isRelease, releaseType)
     }
 }

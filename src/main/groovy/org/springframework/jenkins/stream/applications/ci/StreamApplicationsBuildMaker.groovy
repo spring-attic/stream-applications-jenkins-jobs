@@ -37,16 +37,10 @@ class StreamApplicationsBuildMaker implements JdkConfig, TestPublisher,
     void deploy(
             boolean functionsBuild = false, boolean coreBuild = false,
             boolean appsBuild = false, boolean appsAggregateBuild = false,
-            boolean dockerHubPush = false, boolean githubPushTrigger = false,
-                boolean isRelease = false,
-                String releaseType = "", String cdToApps = "") {
+            boolean dockerHubPush = false, boolean isRelease = false,
+            String releaseType = "", String cdToApps = "") {
 
         dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
-            if (githubPushTrigger && !isRelease) {
-                triggers {
-                    githubPush()
-                }
-            }
             scm {
                 git {
                     remote {
