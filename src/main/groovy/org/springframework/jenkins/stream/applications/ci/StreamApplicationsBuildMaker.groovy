@@ -70,10 +70,10 @@ class StreamApplicationsBuildMaker implements JdkConfig, TestPublisher,
             steps {
                 if (isRelease) {
                     if (functionsBuild) {
-                        shell(cleanAndInstallFunctions(isRelease, releaseType))
+                        shell(cleanAndDeployFunctions(isRelease, releaseType))
                     }
                     else if (coreBuild) {
-                        shell(cleanAndInstallCore(isRelease, releaseType))
+                        shell(cleanAndDeployCore(isRelease, releaseType))
                     }
                     else if (appsBuild) {
                         shell(cleanAndDeployWithGenerateApps(isRelease, releaseType, cdToApps))

@@ -60,7 +60,7 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 		return "rm -rf /tmp/gitcredentials"
 	}
 
-	String cleanAndInstallFunctions(boolean isRelease, String releaseType) {
+	String cleanAndDeployFunctions(boolean isRelease, String releaseType) {
 		if (isRelease && releaseType != null && !releaseType.equals("milestone")) {
 			return """
                     #!/bin/bash -x
@@ -82,7 +82,7 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 
 			   		lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | grep -v ".contains(" | grep -v regex | wc -l)
 					if [ \$lines -eq 0 ]; then
-						./mvnw clean install -f functions -U -Pspring
+						./mvnw clean deploy -f functions -U -Pspring
 					else
 						echo "Snapshots found. Aborting the release build."
 					fi
@@ -90,7 +90,7 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 		}
 	}
 
-	String cleanAndInstallCore(boolean isRelease, String releaseType) {
+	String cleanAndDeployCore(boolean isRelease, String releaseType) {
 		if (isRelease && releaseType != null && !releaseType.equals("milestone")) {
 			return """
                     #!/bin/bash -x
@@ -112,7 +112,7 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 
 			   		lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | grep -v ".contains(" | grep -v regex | wc -l)
 					if [ \$lines -eq 0 ]; then
-						./mvnw clean install -f applications/stream-applications-core -U -Pspring
+						./mvnw clean deploy -f applications/stream-applications-core -U -Pspring
 					else
 						echo "Snapshots found. Aborting the release build."
 					fi
