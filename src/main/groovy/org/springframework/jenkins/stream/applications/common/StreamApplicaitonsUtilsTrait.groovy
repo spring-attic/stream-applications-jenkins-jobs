@@ -77,6 +77,7 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
                         set -x
                         rm mvnw
                         rm -rf .mvn
+                        cd ..
                     else
                         echo "Non release versions found. Exiting build"
                         exit 1
@@ -96,6 +97,7 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 						./mvnw clean deploy -U -Pspring
 						rm mvnw
                         rm -rf .mvn
+                        cd ..
 					else
 						echo "Snapshots found. Exiting the release build."
 						exit 1
