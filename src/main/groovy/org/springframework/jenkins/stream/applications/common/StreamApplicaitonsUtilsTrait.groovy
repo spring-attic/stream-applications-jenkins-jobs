@@ -111,8 +111,8 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 			return """
                     #!/bin/bash -x
 
-					cp mvnw functions
-					cp -R .mvn functions
+					cp mvnw applications/stream-applications-core
+					cp -R .mvn applications/stream-applications-core
 					cd applications/stream-applications-core
 
                     lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v ".contains(" | grep -v regex | wc -l)
@@ -123,7 +123,7 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
                         set -x
                         rm mvnw
                         rm -rf .mvn
-                        cd ..
+                        cd ../..
                     else
                         echo "Non release versions found. Exiting build"
                         exit 1
@@ -134,8 +134,8 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 			return """
 					#!/bin/bash -x
 					
-					cp mvnw functions
-					cp -R .mvn functions
+					cp mvnw applications/stream-applications-core
+					cp -R .mvn applications/stream-applications-core
 					cd applications/stream-applications-core
 					
 			   		lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | grep -v ".contains(" | grep -v regex | wc -l)
@@ -144,7 +144,7 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 						
 						rm mvnw
                         rm -rf .mvn
-                        cd ..
+                        cd ../..
 					else
 						echo "Snapshots found. Exiting the release build."
 						exit 1
