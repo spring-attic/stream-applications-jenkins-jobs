@@ -118,7 +118,7 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
                     lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v ".contains(" | grep -v regex | wc -l)
                     if [ \$lines -eq 0 ]; then
                         set +x
-                        ./mvnw clean deploy -f applications/stream-applications-core -Pspring -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
+                        ./mvnw clean deploy -Pspring -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
 				gpgPubRing()}" -Dgpg.passphrase="\$${gpgPassphrase()}" -DSONATYPE_USER="\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\$${sonatypePassword()}" -Pcentral -U
                         set -x
                         rm mvnw
@@ -140,7 +140,7 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 					
 			   		lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | grep -v ".contains(" | grep -v regex | wc -l)
 					if [ \$lines -eq 0 ]; then
-						./mvnw clean deploy -f applications/stream-applications-core -U -Pspring
+						./mvnw clean deploy -U -Pspring
 						
 						rm mvnw
                         rm -rf .mvn
