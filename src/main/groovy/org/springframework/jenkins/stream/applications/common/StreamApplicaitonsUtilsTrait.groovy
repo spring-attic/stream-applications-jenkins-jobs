@@ -65,12 +65,18 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 			return """
                     #!/bin/bash -x
 
-                    lines=\$(find functions -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v ".contains(" | grep -v regex | wc -l)
+					cp mvnw functions
+					cp -R .mvn functions
+					cd functions
+
+                    lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v ".contains(" | grep -v regex | wc -l)
                     if [ \$lines -eq 0 ]; then
                         set +x
-                        ./mvnw clean deploy -f functions -Pspring -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
+                        ./mvnw clean deploy -Pspring -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
 				gpgPubRing()}" -Dgpg.passphrase="\$${gpgPassphrase()}" -DSONATYPE_USER="\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\$${sonatypePassword()}" -Pcentral -U
                         set -x
+                        rm mvnw
+                        rm -rf .mvn
                     else
                         echo "Non release versions found. Exiting build"
                         exit 1
@@ -81,9 +87,15 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 			return """
 					#!/bin/bash -x
 
-			   		lines=\$(find functions -type f -name pom.xml | xargs grep SNAPSHOT | grep -v ".contains(" | grep -v regex | wc -l)
+					cp mvnw functions
+					cp -R .mvn functions
+					cd functions
+					
+			   		lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | grep -v ".contains(" | grep -v regex | wc -l)
 					if [ \$lines -eq 0 ]; then
-						./mvnw clean deploy -f functions -U -Pspring
+						./mvnw clean deploy -U -Pspring
+						rm mvnw
+                        rm -rf .mvn
 					else
 						echo "Snapshots found. Exiting the release build."
 						exit 1
