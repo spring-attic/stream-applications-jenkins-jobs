@@ -111,12 +111,19 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 			return """
                     #!/bin/bash -x
 
-                    lines=\$(find applications/stream-applications-core -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v ".contains(" | grep -v regex | wc -l)
+					cp mvnw functions
+					cp -R .mvn functions
+					cd applications/stream-applications-core
+
+                    lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v ".contains(" | grep -v regex | wc -l)
                     if [ \$lines -eq 0 ]; then
                         set +x
                         ./mvnw clean deploy -f applications/stream-applications-core -Pspring -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
 				gpgPubRing()}" -Dgpg.passphrase="\$${gpgPassphrase()}" -DSONATYPE_USER="\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\$${sonatypePassword()}" -Pcentral -U
                         set -x
+                        rm mvnw
+                        rm -rf .mvn
+                        cd ..
                     else
                         echo "Non release versions found. Exiting build"
                         exit 1
@@ -126,10 +133,18 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 		if (isRelease && releaseType != null && releaseType.equals("milestone")) {
 			return """
 					#!/bin/bash -x
-
-			   		lines=\$(find applications/stream-applications-core -type f -name pom.xml | xargs grep SNAPSHOT | grep -v ".contains(" | grep -v regex | wc -l)
+					
+					cp mvnw functions
+					cp -R .mvn functions
+					cd applications/stream-applications-core
+					
+			   		lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | grep -v ".contains(" | grep -v regex | wc -l)
 					if [ \$lines -eq 0 ]; then
 						./mvnw clean deploy -f applications/stream-applications-core -U -Pspring
+						
+						rm mvnw
+                        rm -rf .mvn
+                        cd ..
 					else
 						echo "Snapshots found. Exiting the release build."
 						exit 1
