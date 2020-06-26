@@ -224,6 +224,9 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 					cd -
                 else
                     echo "Snapshots found. Exiting the release build."
+					rm mvnw
+                    rm -rf .mvn
+					cd -
 					exit 1
                 fi
            """
