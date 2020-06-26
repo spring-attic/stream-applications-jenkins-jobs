@@ -241,7 +241,7 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 					cp mvnw applications/stream-applications-build
 					cp -R .mvn applications/stream-applications-build
 					cd applications/stream-applications-build
-
+					./mvnw clean
                     lines=\$(find . f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v ".contains(" | grep -v regex | wc -l)
                     if [ \$lines -eq 0 ]; then
                         set +x
@@ -267,7 +267,7 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 					cp mvnw applications/stream-applications-build
 					cp -R .mvn applications/stream-applications-build
 					cd applications/stream-applications-build
-
+					./mvnw clean
 			   		lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | grep -v ".contains(" | grep -v regex | wc -l)
 					if [ \$lines -eq 0 ]; then
 						./mvnw clean install -U -Pspring
