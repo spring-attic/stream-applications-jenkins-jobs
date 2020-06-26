@@ -80,6 +80,9 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
                         cd ..
                     else
                         echo "Non release versions found. Exiting build"
+                        rm mvnw
+                        rm -rf .mvn
+                        cd ..
                         exit 1
                     fi
                 """
@@ -100,6 +103,9 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
                         cd ..
 					else
 						echo "Snapshots found. Exiting the release build."
+						rm mvnw
+                        rm -rf .mvn
+                        cd ..
 						exit 1
 					fi
 			   """
@@ -126,6 +132,9 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
                         cd ../..
                     else
                         echo "Non release versions found. Exiting build"
+                        rm mvnw
+                        rm -rf .mvn
+                        cd ../..
                         exit 1
                     fi
                 """
@@ -147,6 +156,9 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
                         cd ../..
 					else
 						echo "Snapshots found. Exiting the release build."
+						rm mvnw
+                        rm -rf .mvn
+                        cd ../..
 						exit 1
 					fi
 			   """
@@ -157,7 +169,11 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 		if (isRelease && releaseType != null && !releaseType.equals("milestone")) {
 			return """
                     #!/bin/bash -x
-                    pushd applications/${cdToApps}
+
+					cp mvnw applications/${cdToApps}
+					cp -R .mvn applications/${cdToApps}
+
+                    cd applications/${cdToApps}
                     rm -rf apps
 					
                     lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v regex | wc -l)
@@ -166,15 +182,19 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 						if [ -d "src/main/java" ]
 						then
 							echo "Source folder found."
-							popd
-							./mvnw clean deploy -U -f applications/${cdToApps}
+							./mvnw clean deploy -U 
 						else
-							popd
-							./mvnw clean package -U -f applications/${cdToApps}
+							./mvnw clean package -U 
 						fi
                         set -x
+						rm mvnw
+                        rm -rf .mvn
+						cd -
                     else
                         echo "Non release versions found. Exiting build"
+						rm mvnw
+                        rm -rf .mvn
+						cd -
 						exit 1
                     fi
                 """
@@ -182,6 +202,9 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 		if (isRelease && releaseType != null && releaseType.equals("milestone")) {
 			return """
                 #!/bin/bash -x
+
+				cp mvnw applications/${cdToApps}
+				cp -R .mvn applications/${cdToApps}
                 cd applications/${cdToApps}
                 rm -rf apps
 
@@ -191,13 +214,14 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 					 if [ -d "src/main/java" ]
 					 then
 						echo "Source folder found."
-						cd -
-						./mvnw clean deploy -U -f applications/${cdToApps}
+						./mvnw clean deploy -U 
 					else
-						cd -
-						./mvnw clean package -U -f applications/${cdToApps}
+						./mvnw clean package -U 
 					fi
                     set -x
+					rm mvnw
+                    rm -rf .mvn
+					cd -
                 else
                     echo "Snapshots found. Exiting the release build."
 					exit 1
@@ -210,16 +234,25 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 		if (isRelease && releaseType != null && !releaseType.equals("milestone")) {
 			return """
                     #!/bin/bash -x
-                    rm -rf apps
 
-                    lines=\$(find applications/stream-applications-build -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v ".contains(" | grep -v regex | wc -l)
+					cp mvnw applications/stream-applications-build
+					cp -R .mvn applications/stream-applications-build
+					cd applications/stream-applications-build
+
+                    lines=\$(find . f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v ".contains(" | grep -v regex | wc -l)
                     if [ \$lines -eq 0 ]; then
                         set +x
-                        ./mvnw clean deploy -f applications/stream-applications-build -Pspring -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
+                        ./mvnw clean deploy -Pspring -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
 				gpgPubRing()}" -Dgpg.passphrase="\$${gpgPassphrase()}" -DSONATYPE_USER="\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\$${sonatypePassword()}" -Pcentral -U
                         set -x
+                        rm mvnw
+                        rm -rf .mvn
+                        cd ../..
                     else
                         echo "Non release versions found. Exiting build."
+                        rm mvnw
+                        rm -rf .mvn
+                        cd ../..
                         exit 1
                     fi
                 """
@@ -227,12 +260,22 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 		if (isRelease && releaseType != null && releaseType.equals("milestone")) {
 			return """
 					#!/bin/bash -x
+					
+					cp mvnw applications/stream-applications-build
+					cp -R .mvn applications/stream-applications-build
+					cd applications/stream-applications-build
 
-			   		lines=\$(find applications/stream-applications-build -type f -name pom.xml | xargs grep SNAPSHOT | grep -v ".contains(" | grep -v regex | wc -l)
+			   		lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | grep -v ".contains(" | grep -v regex | wc -l)
 					if [ \$lines -eq 0 ]; then
-						./mvnw clean install -f applications/stream-applications-build -U -Pspring
+						./mvnw clean install -U -Pspring
+						rm mvnw
+                        rm -rf .mvn
+                        cd ../..
 					else
 						echo "Snapshots found. Exiting the release build."
+						rm mvnw
+                        rm -rf .mvn
+                        cd ../..
 						exit 1
 					fi
 			   """
