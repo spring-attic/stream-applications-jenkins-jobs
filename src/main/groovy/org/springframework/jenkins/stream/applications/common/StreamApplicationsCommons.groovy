@@ -30,7 +30,7 @@ class StreamApplicationsCommons {
             'websocket-source'                  : 'source/websocket-source',
             //sinks
             'cassandra-sink'                    : 'sink/cassandra-sink',
-            'counter-sink'                      : 'sink/counter-sink',
+            'analytics-sink'                    : 'sink/analytics-sink',
             'file-sink'                         : 'sink/file-sink',
             'ftp-sink'                          : 'sink/ftp-sink',
             'geode-sink'                        : 'sink/geode-sink',
@@ -70,7 +70,7 @@ class StreamApplicationsCommons {
 
     public static final List<String> PHASE2_KEYS = ['s3-source', 'sftp-source', 'tcp-source', 'time-source', 'twitter-message-source',
                                                     'twitter-search-source', 'twitter-stream-source', 'websocket-source',
-                                                    'cassandra-sink', 'counter-sink']
+                                                    'cassandra-sink', 'analytics-sink']
 
     public static final List<String> PHASE3_KEYS = ['file-sink', 'ftp-sink', 'geode-sink', 'jdbc-sink', 'log-sink',
                                                     'mongodb-sink', 'mqtt-sink', 'rabbit-sink', 'redis-sink', 'router-sink']
