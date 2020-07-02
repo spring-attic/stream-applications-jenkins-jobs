@@ -48,6 +48,7 @@ class StreamApplicationsCommons {
             'throughput-sink'                   : 'sink/throughput-sink',
             'twitter-message-sink'              : 'sink/twitter-message-sink',
             'twitter-update-sink'               : 'sink/twitter-update-sink',
+            'wavefront-sink'                    : 'sink/wavefront-sink',
             'websocket-sink'                    : 'sink/websocket-sink',
             //processors
             'bridge-processor'                  : 'processor/bridge-processor',
@@ -75,14 +76,17 @@ class StreamApplicationsCommons {
     public static final List<String> PHASE3_KEYS = ['file-sink', 'ftp-sink', 'geode-sink', 'jdbc-sink', 'log-sink',
                                                     'mongodb-sink', 'mqtt-sink', 'rabbit-sink', 'redis-sink', 'router-sink']
 
-    public static final List<String> PHASE4_KEYS = ['s3-sink', 'sftp-sink', 'tcp-sink', 'tasklauncher-sink', 'throughput-sink', 'websocket-sink',
-                                                    'twitter-message-sink', 'twitter-update-sink','bridge-processor', 'filter-processor']
+    public static final List<String> PHASE4_KEYS = ['s3-sink', 'sftp-sink', 'tcp-sink', 'tasklauncher-sink', 'throughput-sink',
+                                                    'wavefront-sink', 'websocket-sink', 'twitter-message-sink',
+                                                    'twitter-update-sink','bridge-processor']
 
-    public static final List<String> PHASE5_KEYS = ['groovy-processor', 'header-enricher-processor', 'http-request-processor',
-                                                    'image-recognition-processor', 'object-detection-processor',
+    public static final List<String> PHASE5_KEYS = ['filter-processor', 'groovy-processor', 'header-enricher-processor',
+                                                    'http-request-processor', 'image-recognition-processor', 'object-detection-processor',
                                                     'semantic-segmentation-processor', 'script-processor',
-                                                    'splitter-processor', 'transform-processor', 'twitter-trend-processor']
+                                                    'splitter-processor', 'transform-processor']
 
-    public static final List<List<String>> ALL_JOBS = [PHASE1_KEYS, PHASE2_KEYS, PHASE3_KEYS, PHASE4_KEYS, PHASE5_KEYS]
+    public static final List<String> PHASE6_KEYS = ['twitter-trend-processor']
+
+    public static final List<List<String>> ALL_JOBS = [PHASE1_KEYS, PHASE2_KEYS, PHASE3_KEYS, PHASE4_KEYS, PHASE5_KEYS, PHASE6_KEYS]
 
 }
