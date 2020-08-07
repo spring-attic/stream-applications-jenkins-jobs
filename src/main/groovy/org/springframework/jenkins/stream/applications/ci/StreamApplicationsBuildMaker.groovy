@@ -96,7 +96,7 @@ class StreamApplicationsBuildMaker implements JdkConfig, TestPublisher,
                         }
                     }
                     else if (appsBuild) {
-                        def (appType, app) = ${cdToApps}.tokenize( '/' )
+                        def (appType, app) = cdToApps.tokenize( '/' )
 
                         shell("""set -e
                         #!/bin/bash -x
