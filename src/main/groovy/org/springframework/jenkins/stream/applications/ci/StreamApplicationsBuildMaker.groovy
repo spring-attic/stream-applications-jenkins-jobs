@@ -96,6 +96,8 @@ class StreamApplicationsBuildMaker implements JdkConfig, TestPublisher,
                         }
                     }
                     else if (appsBuild) {
+                        def (appType, app) = ${cdToApps}.tokenize( '/' )
+
                         shell("""set -e
                         #!/bin/bash -x
                         export MAVEN_PATH=${mavenBin()}
@@ -107,10 +109,10 @@ class StreamApplicationsBuildMaker implements JdkConfig, TestPublisher,
                         then
                             echo "Source folder found."
                             cd -
-                            ./mvnw clean deploy -U -pl :${cdToApps}
+                            ./mvnw clean deploy -U -pl :${app}
                         else
                             cd -
-                            ./mvnw clean package -U -pl :${cdToApps}
+                            ./mvnw clean package -U -pl :${app}
                         fi
                         ${cleanGitCredentials()}
                         """)
