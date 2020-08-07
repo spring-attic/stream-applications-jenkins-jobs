@@ -107,10 +107,10 @@ class StreamApplicationsBuildMaker implements JdkConfig, TestPublisher,
                         then
                             echo "Source folder found."
                             cd -
-                            ./mvnw clean deploy -U -f applications/${cdToApps}
+                            ./mvnw clean deploy -U -pl :${cdToApps}
                         else
                             cd -
-                            ./mvnw clean package -U -f applications/${cdToApps}
+                            ./mvnw clean package -U -pl :${cdToApps}
                         fi
                         ${cleanGitCredentials()}
                         """)
