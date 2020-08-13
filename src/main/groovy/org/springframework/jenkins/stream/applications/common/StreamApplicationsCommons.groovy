@@ -10,6 +10,7 @@ class StreamApplicationsCommons {
 
     public static final Map<String, String> PHASED_JOBS = [
             //sources
+            'cdc-debezium-source'               : 'source/cdc-debezium-source',
             'file-source'                       : 'source/file-source',
             'ftp-source'                        : 'source/ftp-source',
             'geode-source'                      : 'source/geode-source',
@@ -85,7 +86,7 @@ class StreamApplicationsCommons {
                                                     'semantic-segmentation-processor', 'script-processor',
                                                     'splitter-processor', 'transform-processor']
 
-    public static final List<String> PHASE6_KEYS = ['twitter-trend-processor']
+    public static final List<String> PHASE6_KEYS = ['twitter-trend-processor', 'cdc-debezium-source']
 
     public static final List<List<String>> ALL_JOBS = [PHASE1_KEYS, PHASE2_KEYS, PHASE3_KEYS, PHASE4_KEYS, PHASE5_KEYS, PHASE6_KEYS]
 
