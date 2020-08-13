@@ -49,7 +49,6 @@ class StreamApplicationsBuildMaker implements JdkConfig, TestPublisher,
                     }
                 }
             }
-            label('jenkins-17.af.pivotal.io || jenkins-23.af.pivotal.io || jenkins-36.af.pivotal.io')
             jdk jdk8()
             wrappers {
                 colorizeOutput()
