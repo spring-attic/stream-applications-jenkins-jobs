@@ -23,6 +23,7 @@ class StreamApplicationsCommons {
             'rabbit-source'                     : 'source/rabbit-source',
             's3-source'                         : 'source/s3-source',
             'sftp-source'                       : 'source/sftp-source',
+            'syslog-source'                     : 'source/syslog-source',
             'tcp-source'                        : 'source/tcp-source',
             'time-source'                       : 'source/time-source',
             'twitter-message-source'            : 'source/twitter-message-source',
@@ -86,7 +87,7 @@ class StreamApplicationsCommons {
                                                     'semantic-segmentation-processor', 'script-processor',
                                                     'splitter-processor', 'transform-processor']
 
-    public static final List<String> PHASE6_KEYS = ['twitter-trend-processor', 'cdc-debezium-source']
+    public static final List<String> PHASE6_KEYS = ['twitter-trend-processor', 'cdc-debezium-source', 'syslog-source']
 
     public static final List<List<String>> ALL_JOBS = [PHASE1_KEYS, PHASE2_KEYS, PHASE3_KEYS, PHASE4_KEYS, PHASE5_KEYS, PHASE6_KEYS]
 
