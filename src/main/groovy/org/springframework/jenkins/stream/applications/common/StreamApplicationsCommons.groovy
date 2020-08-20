@@ -53,6 +53,7 @@ class StreamApplicationsCommons {
             'wavefront-sink'                    : 'sink/wavefront-sink',
             'websocket-sink'                    : 'sink/websocket-sink',
             //processors
+            'aggregator-processor'              : 'processor/aggregator-processor',
             'bridge-processor'                  : 'processor/bridge-processor',
             'filter-processor'                  : 'processor/filter-processor',
             'groovy-processor'                  : 'processor/groovy-processor',
@@ -87,7 +88,7 @@ class StreamApplicationsCommons {
                                                     'semantic-segmentation-processor', 'script-processor',
                                                     'splitter-processor', 'transform-processor']
 
-    public static final List<String> PHASE6_KEYS = ['twitter-trend-processor', 'cdc-debezium-source', 'syslog-source']
+    public static final List<String> PHASE6_KEYS = ['twitter-trend-processor', 'cdc-debezium-source', 'syslog-source', 'aggregator-processor']
 
     public static final List<List<String>> ALL_JOBS = [PHASE1_KEYS, PHASE2_KEYS, PHASE3_KEYS, PHASE4_KEYS, PHASE5_KEYS, PHASE6_KEYS]
 
