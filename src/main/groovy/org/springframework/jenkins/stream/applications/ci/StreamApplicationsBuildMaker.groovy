@@ -35,6 +35,7 @@ class StreamApplicationsBuildMaker implements JdkConfig, TestPublisher,
     }
 
     void deploy(
+            boolean commonParentBuild = false,
             boolean functionsBuild = false, boolean coreBuild = false,
             boolean appsBuild = false, boolean appsAggregateBuild = false,
             boolean dockerHubPush = false, boolean isRelease = false,
@@ -69,7 +70,10 @@ class StreamApplicationsBuildMaker implements JdkConfig, TestPublisher,
 
             steps {
                 if (isRelease) {
-                    if (functionsBuild) {
+                    if (commonParentBuild) {
+
+                    }
+                    else if (functionsBuild) {
                         shell(cleanAndDeployFunctions(isRelease, releaseType))
                     }
                     else if (coreBuild) {
@@ -83,7 +87,13 @@ class StreamApplicationsBuildMaker implements JdkConfig, TestPublisher,
                     }
                 }
                 else {
-                    if (functionsBuild) {
+                    if (commonParentBuild) {
+                        maven {
+                            mavenInstallation(maven35())
+                            goals('clean deploy -U -Pspring -f stream-applications-build')
+                        }
+                    }
+                    else if (functionsBuild) {
                         maven {
                             mavenInstallation(maven35())
                             goals('clean deploy -U -Pspring -f functions')
@@ -120,7 +130,7 @@ class StreamApplicationsBuildMaker implements JdkConfig, TestPublisher,
                     else if (appsAggregateBuild) {
                         maven {
                             mavenInstallation(maven35())
-                            goals('clean install -U -Pspring -f applications/stream-applications-build')
+                            goals('clean install -U -Pspring -f release-train')
                         }
                     }
                 }
