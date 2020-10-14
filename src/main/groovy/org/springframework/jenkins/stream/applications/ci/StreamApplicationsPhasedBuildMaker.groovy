@@ -83,7 +83,7 @@ class StreamApplicationsPhasedBuildMaker implements StreamApplicaitonsUtilsTrait
                 }
 
                 if (!isRelease) {
-                    phase('stream-applications-release=train') {
+                    phase('stream-applications-release-train') {
                         String prefixedProjectName = prefixJob("stream-applications-release-train")
                         phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
                             currentJobParameters()

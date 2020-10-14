@@ -183,7 +183,7 @@ class StreamApplicationsBuildMaker implements JdkConfig, TestPublisher,
                 if (appsAggregateBuild) {
                     artifactoryMavenBuild(it as Node) {
                         mavenVersion(maven35())
-                        goals('clean install -U -Pfull -Pspring -f applications/stream-applications-build')
+                        goals('clean install -U -Pfull -Pspring -f release-train')
                     }
                     artifactoryMaven3Configurator(it as Node) {
                         if (isRelease && releaseType != null && releaseType.equals("milestone")) {
