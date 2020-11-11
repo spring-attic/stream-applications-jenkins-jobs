@@ -34,6 +34,7 @@ class StreamApplicationsCommons {
             //sinks
             'cassandra-sink'                    : 'sink/cassandra-sink',
             'analytics-sink'                    : 'sink/analytics-sink',
+            'elasticsearch-sink'                : 'sink/elasticsearch-sink',
             'file-sink'                         : 'sink/file-sink',
             'ftp-sink'                          : 'sink/ftp-sink',
             'geode-sink'                        : 'sink/geode-sink',
@@ -79,19 +80,19 @@ class StreamApplicationsCommons {
                                                     'time-source', 'twitter-message-source', 'twitter-search-source',
                                                     'twitter-stream-source', 'websocket-source']
 
-    public static final List<String> PHASE3_KEYS = ['cdc-debezium-source', 'cassandra-sink', 'analytics-sink', 'file-sink',
-                                                    'ftp-sink', 'geode-sink', 'jdbc-sink', 'log-sink',
-                                                    'mongodb-sink', 'mqtt-sink']
+    public static final List<String> PHASE3_KEYS = ['cdc-debezium-source', 'cassandra-sink', 'analytics-sink', 'elasticsearch-sink',
+                                                    'file-sink', 'ftp-sink', 'geode-sink', 'jdbc-sink', 'log-sink',
+                                                    'mongodb-sink']
 
-    public static final List<String> PHASE4_KEYS = ['pgcopy-sink', 'rabbit-sink', 'redis-sink', 'router-sink',
+    public static final List<String> PHASE4_KEYS = ['mqtt-sink', 'pgcopy-sink', 'rabbit-sink', 'redis-sink', 'router-sink',
                                                     'rsocket-sink', 's3-sink', 'sftp-sink', 'tcp-sink',
-                                                    'tasklauncher-sink', 'throughput-sink']
+                                                    'tasklauncher-sink']
 
-    public static final List<String> PHASE5_KEYS = ['wavefront-sink', 'websocket-sink', 'twitter-message-sink', 'twitter-update-sink',
+    public static final List<String> PHASE5_KEYS = ['throughput-sink', 'wavefront-sink', 'websocket-sink', 'twitter-message-sink', 'twitter-update-sink',
                                                     'bridge-processor', 'filter-processor', 'groovy-processor', 'header-enricher-processor',
-                                                    'http-request-processor', 'image-recognition-processor']
+                                                    'http-request-processor']
 
-    public static final List<String> PHASE6_KEYS = ['object-detection-processor', 'semantic-segmentation-processor', 'script-processor',
+    public static final List<String> PHASE6_KEYS = ['image-recognition-processor', 'object-detection-processor', 'semantic-segmentation-processor', 'script-processor',
                                                     'splitter-processor', 'transform-processor', 'twitter-trend-processor',  'aggregator-processor']
 
     public static final List<List<String>> ALL_JOBS = [PHASE1_KEYS, PHASE2_KEYS, PHASE3_KEYS, PHASE4_KEYS, PHASE5_KEYS, PHASE6_KEYS]
