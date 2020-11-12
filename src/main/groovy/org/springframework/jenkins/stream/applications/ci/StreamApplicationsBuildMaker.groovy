@@ -71,7 +71,7 @@ class StreamApplicationsBuildMaker implements JdkConfig, TestPublisher,
             steps {
                 if (isRelease) {
                     if (commonParentBuild) {
-
+                        shell(cleanAndDeployCommonParent(isRelease, releaseType))
                     }
                     else if (functionsBuild) {
                         shell(cleanAndDeployFunctions(isRelease, releaseType))

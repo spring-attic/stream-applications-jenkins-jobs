@@ -60,6 +60,58 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 		return "rm -rf /tmp/gitcredentials"
 	}
 
+	String cleanAndDeployCommonParent(boolean isRelease, String releaseType) {
+		if (isRelease && releaseType != null && !releaseType.equals("milestone")) {
+			return """
+                    #!/bin/bash -x
+
+					cp mvnw stream-applications-build
+					cp -R .mvn stream-applications-build
+					cd stream-applications-build
+
+                    lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v ".contains(" | grep -v regex | wc -l)
+                    if [ \$lines -eq 0 ]; then
+                        set +x
+                        ./mvnw clean deploy -Pspring -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
+				gpgPubRing()}" -Dgpg.passphrase="\$${gpgPassphrase()}" -DSONATYPE_USER="\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\$${sonatypePassword()}" -Pcentral -U
+                        set -x
+                        rm mvnw
+                        rm -rf .mvn
+                        cd ..
+                    else
+                        echo "Non release versions found. Exiting build"
+                        rm mvnw
+                        rm -rf .mvn
+                        cd ..
+                        exit 1
+                    fi
+                """
+		}
+		if (isRelease && releaseType != null && releaseType.equals("milestone")) {
+			return """
+					#!/bin/bash -x
+
+					cp mvnw stream-applications-build
+					cp -R .mvn stream-applications-build
+					cd stream-applications-build
+					
+			   		lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | grep -v ".contains(" | grep -v regex | wc -l)
+					if [ \$lines -eq 0 ]; then
+						./mvnw clean deploy -U -Pspring
+						rm mvnw
+                        rm -rf .mvn
+                        cd ..
+					else
+						echo "Snapshots found. Exiting the release build."
+						rm mvnw
+                        rm -rf .mvn
+                        cd ..
+						exit 1
+					fi
+			   """
+		}
+	}
+
 	String cleanAndDeployFunctions(boolean isRelease, String releaseType) {
 		if (isRelease && releaseType != null && !releaseType.equals("milestone")) {
 			return """
