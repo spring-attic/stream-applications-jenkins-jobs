@@ -130,7 +130,7 @@ class StreamApplicationsBuildMaker implements JdkConfig, TestPublisher,
                     else if (appsAggregateBuild) {
                         maven {
                             mavenInstallation(maven35())
-                            goals('clean install -U -Pspring -f release-train')
+                            goals('clean install -U -Pspring -f stream-applications-release-train')
                         }
                     }
                 }
@@ -183,7 +183,7 @@ class StreamApplicationsBuildMaker implements JdkConfig, TestPublisher,
                 if (appsAggregateBuild) {
                     artifactoryMavenBuild(it as Node) {
                         mavenVersion(maven35())
-                        goals('clean install -U -Pfull -Pspring -f release-train')
+                        goals('clean install -U -Pfull -Pspring -f stream-applications-release-train')
                     }
                     artifactoryMaven3Configurator(it as Node) {
                         if (isRelease && releaseType != null && releaseType.equals("milestone")) {
