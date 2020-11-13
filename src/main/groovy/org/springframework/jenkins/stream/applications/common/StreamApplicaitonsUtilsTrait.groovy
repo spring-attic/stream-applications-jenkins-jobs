@@ -290,9 +290,9 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 			return """
                     #!/bin/bash -x
 
-					cp mvnw applications/stream-applications-build
-					cp -R .mvn applications/stream-applications-build
-					cd applications/stream-applications-build
+					cp mvnw release-train
+					cp -R .mvn release-train
+					cd release-train
 					./mvnw clean
                     lines=\$(find . f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v ".contains(" | grep -v regex | wc -l)
                     if [ \$lines -eq 0 ]; then
@@ -316,9 +316,9 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 			return """
 					#!/bin/bash -x
 					
-					cp mvnw applications/stream-applications-build
-					cp -R .mvn applications/stream-applications-build
-					cd applications/stream-applications-build
+					cp mvnw release-train
+					cp -R .mvn release-train
+					cd release-train
 					./mvnw clean
 			   		lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | grep -v ".contains(" | grep -v regex | wc -l)
 					if [ \$lines -eq 0 ]; then
