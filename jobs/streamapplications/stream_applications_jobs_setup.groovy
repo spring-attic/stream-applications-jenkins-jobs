@@ -5,7 +5,7 @@ import javaposse.jobdsl.dsl.DslFactory
 
 DslFactory dsl = this
 
-String releaseType = "" // possible values are - "", milestone or ga
+String releaseType = "milestone" // possible values are - "", milestone or ga
 
 // Master CI
-new StreamApplicationsPhasedBuildMaker(dsl).build(false, releaseType)
+new StreamApplicationsPhasedBuildMaker(dsl).build(true, releaseType)
