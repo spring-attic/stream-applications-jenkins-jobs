@@ -187,10 +187,10 @@ class StreamApplicationsBuildMaker implements JdkConfig, TestPublisher,
                     }
                     artifactoryMaven3Configurator(it as Node) {
                         if (isRelease && releaseType != null && releaseType.equals("milestone")) {
-                            deployReleaseRepository("milestone")
+                            deployReleaseRepository("libs-milestone-local")
                         }
                         else if (isRelease) {
-                            deployReleaseRepository("release")
+                            deployReleaseRepository("libs-release-local")
                         }
                     }
                 }
