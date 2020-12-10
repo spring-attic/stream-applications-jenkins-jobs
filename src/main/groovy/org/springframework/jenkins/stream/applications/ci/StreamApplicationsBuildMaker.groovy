@@ -152,7 +152,7 @@ class StreamApplicationsBuildMaker implements JdkConfig, TestPublisher,
                         """)
                     }
                     else {
-                        shell("""set -e
+                        shell("""
                         #!/bin/bash -x
                         export MAVEN_PATH=${mavenBin()}
                         ${setupGitCredentials()}
@@ -160,12 +160,17 @@ class StreamApplicationsBuildMaker implements JdkConfig, TestPublisher,
                         cd applications/${cdToApps}
                         cd apps
                         ./mvnw clean deploy -U
+                        if [[ "\$?" -ne 0 ]] ; then
+                            set -e
+                            echo "Apps maven Build failed: Rerunning again"
+                            ./mvnw clean deploy -U
+                        fi
                         ${cleanGitCredentials()}
                         """)
                     }
                 }
                 if (dockerHubPush) {
-                    shell("""set -e
+                    shell("""
                     #!/bin/bash -x
 					export MAVEN_PATH=${mavenBin()}
 					${setupGitCredentials()}
@@ -174,6 +179,11 @@ class StreamApplicationsBuildMaker implements JdkConfig, TestPublisher,
                     cd apps
                     set +x
                     ./mvnw -U clean package jib:build -DskipTests -Djib.httpTimeout=1800000 -Djib.to.auth.username="\$${dockerHubUserNameEnvVar()}" -Djib.to.auth.password="\$${dockerHubPasswordEnvVar()}"
+					if [[ "\$?" -ne 0 ]] ; then
+                            set -e
+                            echo "Apps Docker Build failed: Rerunning again"
+                            ./mvnw -U clean package jib:build -DskipTests -Djib.httpTimeout=1800000 -Djib.to.auth.username="\$${dockerHubUserNameEnvVar()}" -Djib.to.auth.password="\$${dockerHubPasswordEnvVar()}"
+                        fi
 					set -x
 					${cleanGitCredentials()}
 					""")
