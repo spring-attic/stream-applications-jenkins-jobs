@@ -234,7 +234,8 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 						if [ -d "src/main/java" ]
 						then
 							echo "Source folder found."
-							./mvnw clean deploy -U 
+							./mvnw clean deploy -Pspring -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${gpgPubRing()}" 
+								-Dgpg.passphrase="\$${gpgPassphrase()}" -DSONATYPE_USER="\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\$${sonatypePassword()}" -Pcentral -U 
 						else
 							./mvnw clean package -U 
 						fi
@@ -330,7 +331,7 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 						echo "Snapshots found. Exiting the release build."
 						rm mvnw
                         rm -rf .mvn
-                        cd ..
+                        cd ..x`
 						exit 1
 					fi
 			   """
