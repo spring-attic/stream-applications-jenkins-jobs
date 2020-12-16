@@ -295,7 +295,7 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 					cp -R .mvn stream-applications-release-train
 					cd stream-applications-release-train
 					./mvnw clean
-                    lines=\$(find . f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v ".contains(" | grep -v regex | wc -l)
+                    lines=\$(find . -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v ".contains(" | grep -v regex | wc -l)
                     if [ \$lines -eq 0 ]; then
                         set +x
                         ./mvnw clean deploy -Pspring -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
