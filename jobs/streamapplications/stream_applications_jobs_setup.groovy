@@ -8,4 +8,4 @@ DslFactory dsl = this
 String releaseType = "ga" // possible values are - "", milestone or ga
 
 // Master CI
-new StreamApplicationsPhasedBuildMaker(dsl).build(false, releaseType)
+new StreamApplicationsPhasedBuildMaker(dsl).build(true, releaseType)
