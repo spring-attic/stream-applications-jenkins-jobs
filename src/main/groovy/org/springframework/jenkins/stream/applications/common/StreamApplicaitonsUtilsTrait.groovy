@@ -94,7 +94,7 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 					cp mvnw stream-applications-build
 					cp -R .mvn stream-applications-build
 					cd stream-applications-build
-					
+
 			   		lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | grep -v ".contains(" | grep -v regex | wc -l)
 					if [ \$lines -eq 0 ]; then
 						./mvnw clean deploy -U -Pspring
@@ -124,7 +124,7 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
                     lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v ".contains(" | grep -v regex | wc -l)
                     if [ \$lines -eq 0 ]; then
                         set +x
-                        ./mvnw clean deploy -Pspring -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
+                        ./mvnw clean deploy -Pspring -Pintegration -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
 				gpgPubRing()}" -Dgpg.passphrase="\$${gpgPassphrase()}" -DSONATYPE_USER="\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\$${sonatypePassword()}" -Pcentral -U
                         set -x
                         rm mvnw
@@ -146,10 +146,10 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 					cp mvnw functions
 					cp -R .mvn functions
 					cd functions
-					
+
 			   		lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | grep -v ".contains(" | grep -v regex | wc -l)
 					if [ \$lines -eq 0 ]; then
-						./mvnw clean deploy -U -Pspring
+						./mvnw clean deploy -U -Pintegration -Pspring
 						rm mvnw
                         rm -rf .mvn
                         cd ..
@@ -194,15 +194,15 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 		if (isRelease && releaseType != null && releaseType.equals("milestone")) {
 			return """
 					#!/bin/bash -x
-					
+
 					cp mvnw applications/stream-applications-core
 					cp -R .mvn applications/stream-applications-core
 					cd applications/stream-applications-core
-					
+
 			   		lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | grep -v ".contains(" | grep -v regex | wc -l)
 					if [ \$lines -eq 0 ]; then
 						./mvnw clean deploy -U -Pspring
-						
+
 						rm mvnw
                         rm -rf .mvn
                         cd ../..
@@ -227,17 +227,17 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 
                     cd applications/${cdToApps}
                     rm -rf apps
-					
+
                     lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v regex | wc -l)
                     if [ \$lines -eq 0 ]; then
                         set +x
 						if [ -d "src/main/java" ]
 						then
 							echo "Source folder found."
-							./mvnw clean deploy -Pspring -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
-				gpgPubRing()}" -Dgpg.passphrase="\$${gpgPassphrase()}" -DSONATYPE_USER="\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\$${sonatypePassword()}" -Pcentral -U 
+							./mvnw clean deploy -Pintegration -Pspring -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
+				gpgPubRing()}" -Dgpg.passphrase="\$${gpgPassphrase()}" -DSONATYPE_USER="\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\$${sonatypePassword()}" -Pcentral -U
 						else
-							./mvnw clean package -U 
+							./mvnw clean package -Pintegration -U
 						fi
                         set -x
 						rm mvnw
@@ -267,9 +267,9 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 					 if [ -d "src/main/java" ]
 					 then
 						echo "Source folder found."
-						./mvnw clean deploy -U 
+						./mvnw clean deploy -Pintegration -U
 					else
-						./mvnw clean package -U 
+						./mvnw clean package -Pintegration -U
 					fi
                     set -x
 					rm mvnw
@@ -316,7 +316,7 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 		if (isRelease && releaseType != null && releaseType.equals("milestone")) {
 			return """
 					#!/bin/bash -x
-					
+
 					cp mvnw stream-applications-release-train
 					cp -R .mvn stream-applications-release-train
 					cd stream-applications-release-train

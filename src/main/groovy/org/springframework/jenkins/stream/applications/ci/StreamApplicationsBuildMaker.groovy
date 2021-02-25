@@ -96,7 +96,7 @@ class StreamApplicationsBuildMaker implements JdkConfig, TestPublisher,
                     else if (functionsBuild) {
                         maven {
                             mavenInstallation(maven35())
-                            goals('clean deploy -U -Pspring -f functions')
+                            goals('clean deploy -U -Pspring -Pintegration -f functions')
                         }
                     }
                     else if (coreBuild) {
@@ -119,10 +119,10 @@ class StreamApplicationsBuildMaker implements JdkConfig, TestPublisher,
                         then
                             echo "Source folder found."
                             cd -
-                            ./mvnw clean deploy -U -pl :${app}
+                            ./mvnw clean deploy -U -Pintegration -pl :${app}
                         else
                             cd -
-                            ./mvnw clean package -U -pl :${app}
+                            ./mvnw clean package -U -Pintegration -pl :${app}
                         fi
                         ${cleanGitCredentials()}
                         """)
