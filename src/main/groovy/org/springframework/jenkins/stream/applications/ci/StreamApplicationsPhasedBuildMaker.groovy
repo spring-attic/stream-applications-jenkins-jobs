@@ -15,7 +15,7 @@ class StreamApplicationsPhasedBuildMaker implements StreamApplicaitonsUtilsTrait
         this.dsl = dsl
     }
 
-    void build(boolean isRelease, String releaseType, String branchToBuild = "master") {
+    void build(boolean isRelease, String releaseType, String branchToBuild = "main") {
         buildAllRelatedJobs(isRelease, releaseType, branchToBuild)
         dsl.multiJob("stream-application-builds" + "-" + branchToBuild) {
             steps {

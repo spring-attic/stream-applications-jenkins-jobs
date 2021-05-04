@@ -18,7 +18,7 @@ dsl.nestedView('StreamApplicationsJobs') {
 	views {
 		listView('Master-CI') {
 			jobs {
-				regex('stream-applications.*master-ci')
+				regex('stream-applications.*main-ci')
 			}
 			columns defaultColumns()
 		}

@@ -8,7 +8,7 @@ job('scst-app-starters-seed') {
             remote {
                 github('spring-io/build-scripts')
             }
-            branch('master')
+            branch('main')
         }
     }
     steps {

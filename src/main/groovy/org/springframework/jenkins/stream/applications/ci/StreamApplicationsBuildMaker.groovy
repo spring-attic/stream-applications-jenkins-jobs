@@ -21,7 +21,7 @@ class StreamApplicationsBuildMaker implements JdkConfig, TestPublisher,
     final String project
     final String repository
 
-    String branchToBuild = "master"
+    String branchToBuild = "main"
 
     String jdkVersion = jdk8()
 
@@ -55,7 +55,7 @@ class StreamApplicationsBuildMaker implements JdkConfig, TestPublisher,
                 colorizeOutput()
                 maskPasswords()
                 credentialsBinding {
-                    usernamePassword('DOCKER_HUB_USERNAME', 'DOCKER_HUB_PASSWORD', "hub.docker.com-springbuildmaster")
+                    usernamePassword('DOCKER_HUB_USERNAME', 'DOCKER_HUB_PASSWORD', "hub.docker.com-springbuildmain")
                 }
                 if (isRelease && releaseType != null && !releaseType.equals("milestone")) {
                     credentialsBinding {
@@ -63,7 +63,7 @@ class StreamApplicationsBuildMaker implements JdkConfig, TestPublisher,
                         file('FOO_PUB', "spring-signing-pubring.gpg")
                         string('FOO_PASSPHRASE', "spring-gpg-passphrase")
                         usernamePassword('SONATYPE_USER', 'SONATYPE_PASSWORD', "oss-token")
-                        usernamePassword('DOCKER_HUB_USERNAME', 'DOCKER_HUB_PASSWORD', "hub.docker.com-springbuildmaster")
+                        usernamePassword('DOCKER_HUB_USERNAME', 'DOCKER_HUB_PASSWORD', "hub.docker.com-springbuildmain")
                     }
                 }
             }
