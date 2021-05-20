@@ -39,7 +39,7 @@ class StreamApplicationsBuildMaker implements JdkConfig, TestPublisher,
             boolean functionsBuild = false, boolean coreBuild = false,
             boolean appsBuild = false, boolean appsAggregateBuild = false,
             boolean dockerHubPush = false, boolean isRelease = false,
-            String releaseType = "", String cdToApps = "") {
+            String releaseType = "", String cdToApps = "", boolean appsAlternateBuild = false) {
 
         dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
             scm {
@@ -81,6 +81,12 @@ class StreamApplicationsBuildMaker implements JdkConfig, TestPublisher,
                     }
                     else if (appsBuild) {
                         shell(cleanAndDeployWithGenerateApps(isRelease, releaseType, cdToApps))
+//                        shell(foo(isRelease, releaseType, "source"))
+//                        shell(foo(isRelease, releaseType, "sink"))
+//                        shell(foo(isRelease, releaseType, "processor"))
+                    }
+                    else if (appsAlternateBuild) {
+                        shell(foo(isRelease, releaseType, cdToApps))
                     }
                     else if (appsAggregateBuild) {
                         shell(cleanAndInstallAggregate(isRelease, releaseType))

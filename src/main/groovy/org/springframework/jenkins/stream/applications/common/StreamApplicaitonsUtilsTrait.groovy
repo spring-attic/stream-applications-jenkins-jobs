@@ -217,6 +217,70 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 		}
 	}
 
+	String foo(boolean isRelease, String releaseType, String appsType) {
+		if (isRelease && releaseType != null && !releaseType.equals("milestone")) {
+			return """
+                    #!/bin/bash -x
+
+					cp mvnw applications/${appsType}
+					cp -R .mvn applications/${appsType}
+
+                    cd applications/${appsType}
+                    find . -name "apps" -type d -exec rm -r "{}" \\;
+
+                    lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v regex | wc -l)
+                    if [ \$lines -ne 0 ]; then
+                        set +x
+						
+						for dir in */ ; do
+    						echo "Now processing: \${dir}"
+							cd \${dir}
+							if [ -d "src/main/java" ]
+							then
+								echo "Source folder found."
+								./mvnw clean deploy -Pintegration -Pspring -Dgpg.secretKeyring="\\\$${gpgSecRing()}" -Dgpg.publicKeyring="\\\$${
+				gpgPubRing()}" -Dgpg.passphrase="\\\$${gpgPassphrase()}" -DSONATYPE_USER="\\\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\\\$${sonatypePassword()}" -Pcentral -U
+							else
+								./mvnw clean package -Pintegration -U
+							fi
+							
+							export MAVEN_PATH=${mavenBin()}
+							${setupGitCredentials()}
+                        	echo "Building apps"
+                        	cd apps
+                        	set +x
+                        	./mvnw clean deploy -Pspring -Dgpg.secretKeyring="\\\$${gpgSecRing()}" -Dgpg.publicKeyring="\\\$${
+					gpgPubRing()}" -Dgpg.passphrase="\\\$${gpgPassphrase()}" -DSONATYPE_USER="\\\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\\\$${sonatypePassword()}" -Pcentral -U
+                        	set -x
+							echo "Pushing to Docker Hub"
+							set +x
+                    		./mvnw -U clean package jib:build -DskipTests -Djib.httpTimeout=1800000 -Djib.to.auth.username="\\\$${dockerHubUserNameEnvVar()}" -Djib.to.auth.password="\\\$${dockerHubPasswordEnvVar()}"
+							if [[ "\\\$?" -ne 0 ]] ; then
+								set -e
+								echo "Apps Docker Build failed: Rerunning again"
+								./mvnw -U clean package jib:build -DskipTests -Djib.httpTimeout=1800000 -Djib.to.auth.username="\\\$${dockerHubUserNameEnvVar()}" -Djib.to.auth.password="\\\$${dockerHubPasswordEnvVar()}"
+                        	fi
+							set -x
+							cd ..
+							${cleanGitCredentials()}
+						done
+
+                        set -x
+                        cd ..
+                        echo "Now in: "pwd
+						rm mvnw
+                        rm -rf .mvn
+						
+                    else
+                        echo "Non release versions found. Exiting build"
+						rm mvnw
+                        rm -rf .mvn
+						exit 1
+                    fi
+                """
+		}
+	}
+
 	String cleanAndDeployWithGenerateApps(boolean isRelease, String releaseType, String cdToApps) {
 		if (isRelease && releaseType != null && !releaseType.equals("milestone")) {
 			return """
