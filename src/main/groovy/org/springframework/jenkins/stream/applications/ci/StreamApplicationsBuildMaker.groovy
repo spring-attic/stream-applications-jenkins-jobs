@@ -81,12 +81,9 @@ class StreamApplicationsBuildMaker implements JdkConfig, TestPublisher,
                     }
                     else if (appsBuild) {
                         shell(cleanAndDeployWithGenerateApps(isRelease, releaseType, cdToApps))
-//                        shell(foo(isRelease, releaseType, "source"))
-//                        shell(foo(isRelease, releaseType, "sink"))
-//                        shell(foo(isRelease, releaseType, "processor"))
                     }
                     else if (appsAlternateBuild) {
-                        shell(foo(isRelease, releaseType, cdToApps))
+                        shell(bulkAppsGaRelease(isRelease, releaseType, cdToApps))
                     }
                     else if (appsAggregateBuild) {
                         shell(cleanAndInstallAggregate(isRelease, releaseType))

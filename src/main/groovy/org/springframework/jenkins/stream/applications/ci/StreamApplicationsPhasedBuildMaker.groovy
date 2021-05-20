@@ -111,6 +111,14 @@ class StreamApplicationsPhasedBuildMaker implements StreamApplicaitonsUtilsTrait
                 .deploy(false, false, false,
                         false, false, false, isRelease, releaseType, "source", true)
 
+        new StreamApplicationsBuildMaker(dsl, "spring-cloud", "stream-applications", "sink-apps-release", branchToBuild)
+                .deploy(false, false, false,
+                        false, false, false, isRelease, releaseType, "sink", true)
+
+        new StreamApplicationsBuildMaker(dsl, "spring-cloud", "stream-applications", "processor-apps-release", branchToBuild)
+                .deploy(false, false, false,
+                        false, false, false, isRelease, releaseType, "processor", true)
+
         new StreamApplicationsBuildMaker(dsl, "spring-cloud", "stream-applications", "stream-applications-release-train", branchToBuild)
                 .deploy(false, false, false, false, true, false, isRelease, releaseType)
     }

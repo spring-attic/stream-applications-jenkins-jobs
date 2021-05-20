@@ -217,7 +217,7 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 		}
 	}
 
-	String foo(boolean isRelease, String releaseType, String appsType) {
+	String bulkAppsGaRelease(boolean isRelease, String releaseType, String appsType) {
 		if (isRelease && releaseType != null && !releaseType.equals("milestone")) {
 			return """
                     #!/bin/bash -x
@@ -230,28 +230,30 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 
                     lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v regex | wc -l)
                     if [ \$lines -ne 0 ]; then
-                        set +x
-						
+                 
+						export MAVEN_PATH=${mavenBin()}
+						${setupGitCredentials()}
 						for dir in */ ; do
     						echo "Now processing: \${dir}"
 							cd \${dir}
 							if [ -d "src/main/java" ]
 							then
 								echo "Source folder found."
+								set +x
 								./mvnw clean deploy -Pintegration -Pspring -Dgpg.secretKeyring="\\\$${gpgSecRing()}" -Dgpg.publicKeyring="\\\$${
 				gpgPubRing()}" -Dgpg.passphrase="\\\$${gpgPassphrase()}" -DSONATYPE_USER="\\\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\\\$${sonatypePassword()}" -Pcentral -U
+								set -x
 							else
 								./mvnw clean package -Pintegration -U
 							fi
 							
-							export MAVEN_PATH=${mavenBin()}
-							${setupGitCredentials()}
                         	echo "Building apps"
                         	cd apps
                         	set +x
                         	./mvnw clean deploy -Pspring -Dgpg.secretKeyring="\\\$${gpgSecRing()}" -Dgpg.publicKeyring="\\\$${
 					gpgPubRing()}" -Dgpg.passphrase="\\\$${gpgPassphrase()}" -DSONATYPE_USER="\\\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\\\$${sonatypePassword()}" -Pcentral -U
                         	set -x
+                        	
 							echo "Pushing to Docker Hub"
 							set +x
                     		./mvnw -U clean package jib:build -DskipTests -Djib.httpTimeout=1800000 -Djib.to.auth.username="\\\$${dockerHubUserNameEnvVar()}" -Djib.to.auth.password="\\\$${dockerHubPasswordEnvVar()}"
@@ -262,10 +264,9 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
                         	fi
 							set -x
 							cd ..
-							${cleanGitCredentials()}
 						done
+						${cleanGitCredentials()}
 
-                        set -x
                         cd ..
                         echo "Now in: "pwd
 						rm mvnw
