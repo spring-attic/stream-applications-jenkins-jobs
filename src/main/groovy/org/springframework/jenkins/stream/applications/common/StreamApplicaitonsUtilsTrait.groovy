@@ -240,11 +240,11 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 							then
 								echo "Source folder found."
 								set +x
-								./mvnw clean deploy -Pintegration -Pspring -Dgpg.secretKeyring="\\\$${gpgSecRing()}" -Dgpg.publicKeyring="\\\$${
+								../mvnw clean deploy -Pintegration -Pspring -Dgpg.secretKeyring="\\\$${gpgSecRing()}" -Dgpg.publicKeyring="\\\$${
 				gpgPubRing()}" -Dgpg.passphrase="\\\$${gpgPassphrase()}" -DSONATYPE_USER="\\\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\\\$${sonatypePassword()}" -Pcentral -U
 								set -x
 							else
-								./mvnw clean package -Pintegration -U
+								../mvnw clean package -Pintegration -U
 							fi
 							
                         	echo "Building apps"
