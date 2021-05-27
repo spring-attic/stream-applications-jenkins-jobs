@@ -229,7 +229,7 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
                     find . -name "apps" -type d -exec rm -r "{}" \\;
 
                     lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v regex | wc -l)
-                    if [ \$lines -ne 0 ]; then
+                    if [ \$lines -eq 0 ]; then
                  
 						export MAVEN_PATH=${mavenBin()}
 						${setupGitCredentials()}
