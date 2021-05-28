@@ -226,7 +226,7 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 					cp -R .mvn applications/${appsType}
 
                     cd applications/${appsType}
-                    find . -name "apps" -type d -exec rm -r "{}" \\;
+                    find . -name "apps" -type d -exec rm -r "{}" \\; || true
 
                     lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v regex | wc -l)
                     if [ \$lines -eq 0 ]; then
@@ -236,6 +236,7 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 						for dir in */ ; do
     						echo "Now processing: \${dir}"
 							cd \${dir}
+
 							if [ -d "src/main/java" ]
 							then
 								echo "Source folder found."
