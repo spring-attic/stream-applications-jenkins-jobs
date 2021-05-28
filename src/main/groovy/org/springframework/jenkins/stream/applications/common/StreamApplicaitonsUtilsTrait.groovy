@@ -241,8 +241,8 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 							then
 								echo "Source folder found."
 								set +x
-								../mvnw clean deploy -Pintegration -Pspring -Dgpg.secretKeyring="\\\$${gpgSecRing()}" -Dgpg.publicKeyring="\\\$${
-				gpgPubRing()}" -Dgpg.passphrase="\\\$${gpgPassphrase()}" -DSONATYPE_USER="\\\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\\\$${sonatypePassword()}" -Pcentral -U
+								../mvnw clean deploy -Pintegration -Pspring -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\\\$${
+				gpgPubRing()}" -Dgpg.passphrase="\$${gpgPassphrase()}" -DSONATYPE_USER="\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\$${sonatypePassword()}" -Pcentral -U
 								set -x
 							else
 								../mvnw clean package -Pintegration -U
@@ -251,17 +251,17 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
                         	echo "Building apps"
                         	cd apps
                         	set +x
-                        	./mvnw clean deploy -Pspring -Dgpg.secretKeyring="\\\$${gpgSecRing()}" -Dgpg.publicKeyring="\\\$${
-					gpgPubRing()}" -Dgpg.passphrase="\\\$${gpgPassphrase()}" -DSONATYPE_USER="\\\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\\\$${sonatypePassword()}" -Pcentral -U
+                        	./mvnw clean deploy -Pspring -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
+					gpgPubRing()}" -Dgpg.passphrase="\$${gpgPassphrase()}" -DSONATYPE_USER="\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\$${sonatypePassword()}" -Pcentral -U
                         	set -x
                         	
 							echo "Pushing to Docker Hub"
 							set +x
-                    		./mvnw -U clean package jib:build -DskipTests -Djib.httpTimeout=1800000 -Djib.to.auth.username="\\\$${dockerHubUserNameEnvVar()}" -Djib.to.auth.password="\\\$${dockerHubPasswordEnvVar()}"
+                    		./mvnw -U clean package jib:build -DskipTests -Djib.httpTimeout=1800000 -Djib.to.auth.username="\$${dockerHubUserNameEnvVar()}" -Djib.to.auth.password="\$${dockerHubPasswordEnvVar()}"
 							if [[ "\\\$?" -ne 0 ]] ; then
 								set -e
 								echo "Apps Docker Build failed: Rerunning again"
-								./mvnw -U clean package jib:build -DskipTests -Djib.httpTimeout=1800000 -Djib.to.auth.username="\\\$${dockerHubUserNameEnvVar()}" -Djib.to.auth.password="\\\$${dockerHubPasswordEnvVar()}"
+								./mvnw -U clean package jib:build -DskipTests -Djib.httpTimeout=1800000 -Djib.to.auth.username="\$${dockerHubUserNameEnvVar()}" -Djib.to.auth.password="\$${dockerHubPasswordEnvVar()}"
                         	fi
 							set -x
 							cd ..
