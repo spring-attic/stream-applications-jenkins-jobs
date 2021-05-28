@@ -225,7 +225,7 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 					cp mvnw applications/${appsType}
 					cp -R .mvn applications/${appsType}
 
-                    pushd applications/${appsType}
+                    cd applications/${appsType}
                     find . -name "apps" -type d -exec rm -r "{}" \\; || true
 
                     lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v regex | wc -l)
@@ -235,7 +235,7 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 						${setupGitCredentials()}
 						for dir in */ ; do
     						echo "Now processing: \${dir}"
-							pushd \${dir}
+							cd \${dir}
 
 							if [ -d "src/main/java" ]
 							then
@@ -249,7 +249,7 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 							fi
 							
                         	echo "Building apps"
-                        	pushd apps
+                        	cd apps
                         	set +x
                         	./mvnw clean deploy -Pspring -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
 					gpgPubRing()}" -Dgpg.passphrase="\$${gpgPassphrase()}" -DSONATYPE_USER="\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\$${sonatypePassword()}" -Pcentral -U
@@ -264,21 +264,18 @@ trait StreamApplicaitonsUtilsTrait extends BuildAndDeploy {
 								./mvnw -U clean package jib:build -DskipTests -Djib.httpTimeout=1800000 -Djib.to.auth.username="\$${dockerHubUserNameEnvVar()}" -Djib.to.auth.password="\$${dockerHubPasswordEnvVar()}"
                         	fi
 							set -x
-							popd
-							popd
+							cd ../..
 						done
+						
 						${cleanGitCredentials()}
 
                         echo "Now in: "pwd
 						rm mvnw
                         rm -rf .mvn
-						popd
-						
                     else
                         echo "Non release versions found. Exiting build"
 						rm mvnw
                         rm -rf .mvn
-						popd
 						exit 1
                     fi
                 """
