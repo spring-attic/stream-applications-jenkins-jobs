@@ -207,8 +207,11 @@ class StreamApplicationsBuildMaker implements JdkConfig, TestPublisher,
                         }
                     }
                 }
-                mailer('abilan@vmware.com chackos@vmware.com dturanski@vmware.com ctzolov@vmware.com', true, true)
             }
+            publishers {
+                mailer('abilan@vmware.com chackos@vmware.com dturanski@vmware.com ctzolov@vmware.com ', true, true)
+            }
+
         }
     }
 }
