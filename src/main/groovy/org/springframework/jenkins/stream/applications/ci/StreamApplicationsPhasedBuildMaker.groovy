@@ -69,17 +69,33 @@ class StreamApplicationsPhasedBuildMaker implements StreamApplicaitonsUtilsTrait
 
                 int counter = 1
 
-                (StreamApplicationsCommons.ALL_JOBS).each { List<String> ph ->
-                    phase("applications-ci-group-${counter}", 'COMPLETED') {
-                        ph.each {
-                            String projectName ->
-                                String prefixedProjectName = prefixJob(projectName)
-                                phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
-                                    currentJobParameters()
-                                }
+                if (branchToBuild.equals("2020.0.x")) {
+                    (StreamApplicationsCommons.ALL_JOBS_2020).each { List<String> ph ->
+                        phase("applications-ci-group-${counter}", 'COMPLETED') {
+                            ph.each {
+                                String projectName ->
+                                    String prefixedProjectName = prefixJob(projectName)
+                                    phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
+                                        currentJobParameters()
+                                    }
+                            }
                         }
+                        counter++;
                     }
-                    counter++;
+                }
+                else {
+                    (StreamApplicationsCommons.ALL_JOBS).each { List<String> ph ->
+                        phase("applications-ci-group-${counter}", 'COMPLETED') {
+                            ph.each {
+                                String projectName ->
+                                    String prefixedProjectName = prefixJob(projectName)
+                                    phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
+                                        currentJobParameters()
+                                    }
+                            }
+                        }
+                        counter++;
+                    }
                 }
 
                 if (!isRelease) {
@@ -101,10 +117,20 @@ class StreamApplicationsPhasedBuildMaker implements StreamApplicaitonsUtilsTrait
                 .deploy(false, true, false, false, false, false, isRelease, releaseType)
         new StreamApplicationsBuildMaker(dsl, "spring-cloud", "stream-applications", "stream-applications-core", branchToBuild)
                 .deploy(false, false, true, false, false, false, isRelease, releaseType)
-        StreamApplicationsCommons.PHASED_JOBS.each { k, v ->
-            new StreamApplicationsBuildMaker(dsl, "spring-cloud", "stream-applications", "${k}", branchToBuild)
-                    .deploy(false, false, false,
-                    true, false, true, isRelease, releaseType, "${v}")
+
+        if (branchToBuild.equals("2020.0.x")) {
+            StreamApplicationsCommons.PHASED_JOBS_2020.each { k, v ->
+                new StreamApplicationsBuildMaker(dsl, "spring-cloud", "stream-applications", "${k}", branchToBuild)
+                        .deploy(false, false, false,
+                                true, false, true, isRelease, releaseType, "${v}")
+            }
+        }
+        else {
+            StreamApplicationsCommons.PHASED_JOBS.each { k, v ->
+                new StreamApplicationsBuildMaker(dsl, "spring-cloud", "stream-applications", "${k}", branchToBuild)
+                        .deploy(false, false, false,
+                                true, false, true, isRelease, releaseType, "${v}")
+            }
         }
 
         new StreamApplicationsBuildMaker(dsl, "spring-cloud", "stream-applications", "source-apps-release", branchToBuild)
