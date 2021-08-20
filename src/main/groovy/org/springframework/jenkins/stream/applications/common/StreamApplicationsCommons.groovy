@@ -51,7 +51,6 @@ class StreamApplicationsCommons {
             's3-sink'                           : 'sink/s3-sink',
             'sftp-sink'                         : 'sink/sftp-sink',
             'tcp-sink'                          : 'sink/tcp-sink',
-            'tasklauncher-sink'                 : 'sink/tasklauncher-sink',
             'throughput-sink'                   : 'sink/throughput-sink',
             'twitter-message-sink'              : 'sink/twitter-message-sink',
             'twitter-update-sink'               : 'sink/twitter-update-sink',
