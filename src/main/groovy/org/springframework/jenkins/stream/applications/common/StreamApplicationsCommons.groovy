@@ -155,7 +155,7 @@ class StreamApplicationsCommons {
     public static final List<String> PHASE4_KEYS = ['mongodb-sink', 'mqtt-sink', 'pgcopy-sink', 'rabbit-sink', 'redis-sink', 'router-sink',
                                                     'rsocket-sink', 's3-sink', 'sftp-sink', 'tcp-sink']
 
-    public static final List<String> PHASE5_KEYS = ['tasklauncher-sink', 'throughput-sink', 'wavefront-sink', 'websocket-sink', 'twitter-message-sink', 'twitter-update-sink',
+    public static final List<String> PHASE5_KEYS = ['throughput-sink', 'wavefront-sink', 'websocket-sink', 'twitter-message-sink', 'twitter-update-sink',
                                                     'zeromq-sink', 'bridge-processor', 'filter-processor', 'groovy-processor']
 
     public static final List<String> PHASE5_KEYS_2020 = ['tasklauncher-sink', 'throughput-sink', 'wavefront-sink', 'websocket-sink', 'twitter-message-sink', 'twitter-update-sink',
