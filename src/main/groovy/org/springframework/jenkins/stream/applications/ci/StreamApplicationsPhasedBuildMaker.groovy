@@ -105,6 +105,12 @@ class StreamApplicationsPhasedBuildMaker implements StreamApplicaitonsUtilsTrait
                             currentJobParameters()
                         }
                     }
+                    phase('stream-applications-integration-tests') {
+                        String prefixedProjectName = prefixJob("stream-applications-integration-tests")
+                        phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
+                            currentJobParameters()
+                        }
+                    }
                 }
             }
         }
@@ -147,5 +153,9 @@ class StreamApplicationsPhasedBuildMaker implements StreamApplicaitonsUtilsTrait
 
         new StreamApplicationsBuildMaker(dsl, "spring-cloud", "stream-applications", "stream-applications-release-train", branchToBuild)
                 .deploy(false, false, false, false, true, false, isRelease, releaseType)
+
+        new StreamApplicationsBuildMaker(dsl, "spring-cloud", "stream-applications", "stream-applications-integration-tests", branchToBuild)
+                .deploy(false, false, false, false, false, false, isRelease, releaseType,
+                        "", false, true)
     }
 }

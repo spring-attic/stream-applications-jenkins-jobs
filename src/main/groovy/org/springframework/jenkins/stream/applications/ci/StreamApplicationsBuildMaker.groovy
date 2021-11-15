@@ -39,7 +39,7 @@ class StreamApplicationsBuildMaker implements JdkConfig, TestPublisher,
             boolean functionsBuild = false, boolean coreBuild = false,
             boolean appsBuild = false, boolean appsAggregateBuild = false,
             boolean dockerHubPush = false, boolean isRelease = false,
-            String releaseType = "", String cdToApps = "", boolean appsAlternateBuild = false) {
+            String releaseType = "", String cdToApps = "", boolean appsAlternateBuild = false, boolean integTestsBuild = false) {
 
         dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
             scm {
@@ -190,6 +190,12 @@ class StreamApplicationsBuildMaker implements JdkConfig, TestPublisher,
 					set -x
 					${cleanGitCredentials()}
 					""")
+                }
+                if (integTestsBuild) {
+                    maven {
+                        mavenInstallation(maven35())
+                        goals('clean test -pl :stream-applications-integration-tests -Pintegration -Dspring.cloud.stream.applications.version=latest')
+                    }
                 }
             }
             configure {
